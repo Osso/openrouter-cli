@@ -72,7 +72,11 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-async fn list_models(category: Option<String>, search: Option<String>, show_pricing: bool) -> Result<()> {
+async fn list_models(
+    category: Option<String>,
+    search: Option<String>,
+    show_pricing: bool,
+) -> Result<()> {
     let client = reqwest::Client::new();
     let mut url = format!("{}/models", API_BASE);
 
@@ -95,7 +99,10 @@ async fn list_models(category: Option<String>, search: Option<String>, show_pric
         .filter(|m| {
             search
                 .as_ref()
-                .map(|s| m.name.to_lowercase().contains(&s.to_lowercase()) || m.id.to_lowercase().contains(&s.to_lowercase()))
+                .map(|s| {
+                    m.name.to_lowercase().contains(&s.to_lowercase())
+                        || m.id.to_lowercase().contains(&s.to_lowercase())
+                })
                 .unwrap_or(true)
         })
         .collect();
@@ -113,7 +120,11 @@ async fn list_models(category: Option<String>, search: Option<String>, show_pric
 
         if show_pricing {
             if let Some(p) = &model.pricing {
-                print!("  {:>8}/M in  {:>8}/M out", format_price(&p.prompt), format_price(&p.completion));
+                print!(
+                    "  {:>8}/M in  {:>8}/M out",
+                    format_price(&p.prompt),
+                    format_price(&p.completion)
+                );
             }
         }
 
