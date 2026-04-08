@@ -37,10 +37,7 @@ struct ModelsResponse {
 #[derive(Debug, Deserialize)]
 struct Model {
     id: String,
-    #[allow(dead_code)]
     name: String,
-    #[allow(dead_code)]
-    description: Option<String>,
     context_length: Option<u64>,
     pricing: Option<Pricing>,
 }
